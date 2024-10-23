@@ -1,0 +1,6 @@
+dev.env
+node_modules/
+.vscode
+package-lock.json
+public/img/*.png
+public/img/*.jpg
