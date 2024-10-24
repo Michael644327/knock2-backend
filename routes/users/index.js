@@ -1,6 +1,5 @@
 // import 'dotenv/config';
 import express from "express";
-import cors from 'cors';
 import moment from "moment-timezone";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -20,17 +19,11 @@ import {
 import { sendNotificationToUser } from "../notifications.js";
 import { appendFile } from "fs";
 
-const app = express();
-
 const dateFormat = "YYYY-MM-DD";
 const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
 const router = express.Router();
 
-app.use(cors({
-  origin: ['http://localhost:3000', 'https://knock2-frontend-3qms.vercel.app'],
-  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-  credentials: true
-}));
+
 
 //  模擬網路延遲的狀況 middleware
 // router.use((req, res, next) => {
