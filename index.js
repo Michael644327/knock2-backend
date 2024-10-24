@@ -77,6 +77,14 @@ app.use("/coupons", coupons);
 app.use("/reservations", reservations);
 app.use("/notifications", notifications);
 
+app.get('/test', (req, res) => {
+  res.json({
+    success: true,
+    message: "Vercel backend is working!",
+    timestamp: new Date().toISOString()
+  });
+});
+
 // 偵聽 port
 app.listen(3001, function () {
   console.log("啟動 server 偵聽埠號 3001");
