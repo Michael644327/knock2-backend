@@ -86,8 +86,12 @@ app.get('/test', (req, res) => {
 });
 
 // 偵聽 port
-app.listen(3001, function () {
-  console.log("啟動 server 偵聽埠號 3001");
-});
+// app.listen(3001, function () {
+//   console.log("啟動 server 偵聽埠號 3001");
+// });
 
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
