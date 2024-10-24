@@ -547,7 +547,33 @@ router.post("/api/create_team/", async (req, res) => {
   res.json(output);
 });
 
+const testData = async (req) => {
+  let rows = [];
+  let success = false;
 
+  try {
+    const sql = `SELECT * FROM teams_list`;
+    [rows] = await db.query(sql);  // 使用 async/await 查詢資料庫
+    success = true;
+  } catch (error) {
+    console.error('Database query error:', error);
+  }
+
+  return {
+    success,
+    rows,
+  };
+};
+
+// 定義 API 路由
+router.get("/teamtest", async (req, res) => {
+  try {
+    const data = await testData(req);  // 獲取數據
+    res.json(data);  // 返回數據作為 JSON 回應
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error", error });
+  }
+});
 
 export default router;
 
