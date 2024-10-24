@@ -14,36 +14,22 @@ import payments from "./routes/payments.js";
 import coupons from "./routes/coupons.js";
 import reservations from "./routes/reservations.js";
 import notifications from "./routes/notifications.js";
-// import './msg-socket.js'
 
 // 掛載 express
 const app = express();
 
-// app.use(cors({
-//   origin: '*',
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-// }));
-
-app.use(cors({
+const corsOptions = {
   origin: ['http://localhost:3000', 'https://knock2-frontend-3qms.vercel.app'],
-  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
-  optionsSuccessStatus: 200 // 某些舊版瀏覽器需要這個 
-}));
-
-// middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-const corsOptions = {
-  credentials: true,
-  origin: (origin, callback) => {
-    callback(null, true); // 全部origin都允許
-  },
+  optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
 
+// middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // 使用套件紀錄 http 請求 **** added by iris
 app.use(morgan("dev"));
 
@@ -56,11 +42,20 @@ app.use((req, res, next) => {
     try {
       req.my_jwt = jwt.verify(token, process.env.JWT_KEY);
     } catch (ex) {
-      console.error(ex);
+      console.error('JWT verification failed:', ex.message);
     }
   }
   next();
 });
+
+app.use('/images', (req, res, next) => {
+  res.set({
+    'Cache-Control': 'public, max-age=31536000',
+    'Access-Control-Allow-Origin': corsOptions.origin
+  });
+  next();
+}, express.static(path.join(__dirname, 'public/images')));
+
 
 // *********設定靜態內容資料夾*********
 app.use(express.static("public"));
@@ -77,21 +72,14 @@ app.use("/coupons", coupons);
 app.use("/reservations", reservations);
 app.use("/notifications", notifications);
 
-// app.get('/test', (req, res) => {
-//   res.json({
-//     success: true,
-//     message: "Vercel backend is working!",
-//     timestamp: new Date().toISOString()
-//   });
-// });
-
-// 偵聽 port
-// app.listen(3001, function () {
-//   console.log("啟動 server 偵聽埠號 3001");
-// });
-
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+
+  app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+  });
+  
 });
 
