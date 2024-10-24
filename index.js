@@ -24,6 +24,8 @@ const app = express();
 //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 // }));
 
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
+
 app.use(cors({
   origin: ['http://localhost:3000', 'https://knock2-frontend-3qms.vercel.app'],
   methods: ['GET','POST','PUT','DELETE','OPTIONS'],
