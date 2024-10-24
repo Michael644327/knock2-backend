@@ -48,15 +48,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/images', (req, res, next) => {
-  res.set({
-    'Cache-Control': 'public, max-age=31536000',
-    'Access-Control-Allow-Origin': corsOptions.origin
-  });
-  next();
-}, express.static(path.join(__dirname, 'public/images')));
-
-
 // *********設定靜態內容資料夾*********
 app.use(express.static("public"));
 
@@ -80,6 +71,6 @@ app.listen(PORT, () => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
   });
-  
+
 });
 
