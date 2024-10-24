@@ -19,6 +19,9 @@
       }
     },
     {
+      "src": "/avatar/(.*)",
+      "dest": "/public/avatar/$1"
+    },    {
       "src": "/(.*)",
       "dest": "/index.js"
     }
