@@ -22,7 +22,9 @@ const app = express();
 app.use(cors({
   origin: ['http://localhost:3000', 'https://knock2-frontend-3qms.vercel.app'],
   methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-  credentials: true
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200 // 某些舊版瀏覽器需要這個
 }));
 
 // middleware
