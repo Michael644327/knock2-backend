@@ -19,18 +19,18 @@ import notifications from "./routes/notifications.js";
 // 掛載 express
 const app = express();
 
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-}));
-
 // app.use(cors({
-//   origin: ['http://localhost:3000', 'https://knock2-frontend-3qms.vercel.app'],
-//   methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-//   credentials: true,
-//   optionsSuccessStatus: 200 // 某些舊版瀏覽器需要這個 
+//   origin: '*',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 // }));
+
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://knock2-frontend-3qms.vercel.app'],
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200 // 某些舊版瀏覽器需要這個 
+}));
 
 // middleware
 app.use(express.urlencoded({ extended: true }));
@@ -77,13 +77,13 @@ app.use("/coupons", coupons);
 app.use("/reservations", reservations);
 app.use("/notifications", notifications);
 
-app.get('/test', (req, res) => {
-  res.json({
-    success: true,
-    message: "Vercel backend is working!",
-    timestamp: new Date().toISOString()
-  });
-});
+// app.get('/test', (req, res) => {
+//   res.json({
+//     success: true,
+//     message: "Vercel backend is working!",
+//     timestamp: new Date().toISOString()
+//   });
+// });
 
 // 偵聽 port
 // app.listen(3001, function () {
